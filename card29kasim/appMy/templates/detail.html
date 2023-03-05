@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+
+
+
+
+{% block css %}
+<style>
+    * {
+       box-sizing: border-box;
+   }
+
+   .details-card {
+       width: 80%;
+       margin: auto;
+   }
+
+
+   .description-container {
+       position: relative;
+       /* height: 900px; */
+   }
+
+   .main-description1 {
+       position: absolute;
+       top: 50%;
+       -webkit-transform: translateY(-50%);
+       -ms-transform: translateY(-50%);
+       transform: translateY(-50%);
+   }
+
+   .main-description h3 {
+       font-size: 2rem;
+   }
+
+   .add-inputs,
+   .add-inputs input {
+       float: left;
+       margin-right: 10px;
+       margin-bottom: 2px;
+   }
+
+   .add-inputs button {
+       border-radius: 0;
+   }
+
+   .add-inputs input {
+       height: 48px;
+       width: 65px;
+       border-radius: 0;
+   }
+
+
+   .product-title {
+       font-size: 1.1rem;
+       font-weight: bold;
+   }
+
+   .product-price {
+       font-size: 1.8rem;
+   }
+
+   .social-list {
+       padding: 0;
+       list-style: none;
+   }
+
+   .social-list li {
+       float: left;
+       padding: 6px 8px;
+       margin-right: 12px;
+   }
+
+   .social-list li a {
+       color: black;
+       font-size: 2rem;
+   }
+
+   .social-list li a i {
+       font-size: 2rem;
+   }
+</style>
+{% endblock css %}
+    
+    
+
+
+{% block body %}
+<main>
+    <div class="container my-5">
+
+        <div class="card details-card p-0">
+            <div class="row">
+
+                <div class="col-md-6 col-sm-12">
+                    <img class="img-fluid details-img" src="{{ products.image.url }}" alt="">
+                </div>
+                <div class="col-md-6 col-sm-12 description-container p-5">
+                    <div class="main-description">
+                        <p class="product-category mb-0">{{ products.brand }}</p>
+                        <h3>{{ products.title }}</h3>
+                        <hr>
+                        <p class="product-price">${{ products.price }}</p>
+                        <form class="add-inputs" method="post">
+                            <input type="number" class="form-control" id="cart_quantity" name="cart_quantity" value="1" min="1" max="10">
+                            <button name="add_to_cart" type="submit" class="btn btn-primary btn-lg">Add to cart</button>
+                        </form>
+                        <form class="add-inputs" method="post">
+                            <button name="add_to_cart" type="submit" class="btn btn-primary btn-lg">Add to Wishlist</button>
+                        </form>
+                        <div style="clear:both"></div>
+
+                        <hr>
+
+
+                        <p class="product-title mt-4 mb-1">About this product</p>
+                        <p class="product-description mb-4">
+                            {{ products.text }}
+
+                        <hr>
+
+                        <p class="product-title mt-4 mb-1">Share this product</p>
+                        <ul class="social-list">
+                            <li><a href="#"><i class="fa-brands fa-facebook"></a></i></li>
+                            <li><a href="#"><i class="fa-brands fa-twitter"></a></i></li>
+                            <li><a href="#"><i class="fa-brands fa-square-instagram"></a></i></li>
+
+                        </ul>
+
+
+
+
+
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+            <!-- End row -->
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-md-10 col-lg-10 p-4">
+              <div class="card shadow-0 border" style="background-color: #f0f2f5;">
+                <div class="card-body p-4">
+                  <div class="form-outline mb-4">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">İsim Soyisim</label>
+                                <input type="text" name="name" class="form-control" id="exampleFormControlInput1" placeholder="İsim Soyisim">
+                              </div>
+                              <div class="mb-3">
+                                <label for="exampleFormControlInput1" class="form-label">Yorum Başlık</label>
+                                <input type="text" name="title" class="form-control" id="exampleFormControlInput1" placeholder="Yorum Başlığı">
+                              </div>
+                              <div class="mb-3">
+                                <label for="exampleFormControlTextarea1" class="form-label">Yorum</label>
+                                <textarea class="form-control" name="text" id="exampleFormControlTextarea1" rows="3"></textarea>
+                              </div>
+                              <button type="submit" class="btn btn-primary">Paylaş</button>
+
+                        </form>
+                  </div>
+
+
+                  
+                  {% for comment in comments %}
+                  <div class="card mb-4">
+                    <div class="card-body">
+                        <h4>{{ comment.title }}</h4>
+                      <p>{{ comment.text }}</p>
+          
+                      <div class="d-flex justify-content-between">
+                        <div class="d-flex flex-row align-items-center">
+                          <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="25"
+                            height="25" />
+                          <p class="small mb-0 ms-2">{{ comment.name }}</p>
+                        </div>
+                        <div class="d-flex flex-row align-items-center">
+                          <p class="small text-muted mb-0">{{ comment.date_now }}</p>
+                          <i class="far fa-thumbs-up mx-2 fa-xs text-black" style="margin-top: -0.16rem;"></i>
+                          
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                    
+                  {% endfor %}
+                    
+          
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+</main>
+{% endblock body %}
+    
+    
+
+    
+
